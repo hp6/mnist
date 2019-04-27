@@ -16,3 +16,16 @@ def columns_with_missing_values(df):
         if df[col].isnull().values.any():
             miss_val_columns.append(col)
     return miss_val_columns
+
+def confusion_matrix_df(matrix, columns=[]):
+    if not columns:
+        columns = list(range(len(matrix)))
+    right_col = np.sum(matrix, axis=1)
+    bottom_row = np.sum(matrix, axis=0)
+    bottom_row = np.append(bottom_row, np.sum(bottom_row))
+    right_col = right_col.reshape(-1, 1)
+    bottom_row = bottom_row.reshape(1, -1)
+    matrix = np.concatenate((matrix, right_col), axis=1)
+    matrix = np.concatenate((matrix, bottom_row), axis=0)
+
+    return pd.DataFrame(matrix, columns=columns+["sum"], index=columns+["sum"])
