@@ -17,7 +17,7 @@ import functions as f
 
 
 
-class NewFeaturesImputer(BaseEstimator, TransformerMixin):
+class DFNewFeaturesImputer(BaseEstimator, TransformerMixin):
     def __init__(self, inplace=False):
         self.inplace = inplace
     def fit(self, X, y=None):
@@ -27,7 +27,7 @@ class NewFeaturesImputer(BaseEstimator, TransformerMixin):
             X = X.copy()
         return X
 
-class ConflictingDataCleaner(BaseEstimator, TransformerMixin):
+class DFConflictingDataCleaner(BaseEstimator, TransformerMixin):
     def __init__(self, inplace=False):
         self.inplace = inplace
     def fit(self, X, y=None):
@@ -37,7 +37,7 @@ class ConflictingDataCleaner(BaseEstimator, TransformerMixin):
             X = X.copy()
         return X
 
-class DataFrameLogScaler(BaseEstimator, TransformerMixin):
+class DFLogScaler(BaseEstimator, TransformerMixin):
     def __init__(self, columns=[]):
         self.columns = columns
     
@@ -49,7 +49,7 @@ class DataFrameLogScaler(BaseEstimator, TransformerMixin):
         X.loc[:, self.columns] = np.log1p(X.loc[:, self.columns])
         return X
 
-class DataFrameScaler(BaseEstimator, TransformerMixin):
+class DFScaler(BaseEstimator, TransformerMixin):
     def __init__(self, columns=[]):
         self.columns = columns
     
@@ -65,7 +65,7 @@ class DataFrameScaler(BaseEstimator, TransformerMixin):
 
 
 
-class DataFrameOneHotEncoder(BaseEstimator, TransformerMixin):
+class DFOneHotEncoder(BaseEstimator, TransformerMixin):
     def __init__(self, columns=[], categories=[], sparse=False, handle_unknown="error"):
         self.columns = columns
         self.categories = categories
@@ -89,7 +89,7 @@ class DataFrameOneHotEncoder(BaseEstimator, TransformerMixin):
         X.drop(self.columns, axis=1, inplace=True)
         return  pd.concat([X, pd.DataFrame(ohe_matrix, columns=column_names, index=X.index)], axis=1)
 
-class NumToCat(BaseEstimator, TransformerMixin):
+class DFNumToCat(BaseEstimator, TransformerMixin):
     def __init__(self, columns=[], inplace=False):
         self.columns = columns
         self.inplace = inplace
@@ -103,7 +103,7 @@ class NumToCat(BaseEstimator, TransformerMixin):
         X[self.columns] = X[self.columns].astype(dtype="object")
         return X
 
-class NaCatImputer(BaseEstimator, TransformerMixin):
+class DFNaCatImputer(BaseEstimator, TransformerMixin):
     def __init__(self, fill_val="NA",  columns=[]):
         self.fill_val = fill_val
         self.columns = columns
@@ -115,7 +115,7 @@ class NaCatImputer(BaseEstimator, TransformerMixin):
         X[self.columns] = X[self.columns].fillna(self.fill_val)
         return X
 
-class ConstantImputer(BaseEstimator, TransformerMixin):
+class DFConstantImputer(BaseEstimator, TransformerMixin):
     def __init__(self, string_fill_val="NA", number_fill_val=0, columns=[], inplace=False):
         self.string_fill_val = string_fill_val
         self.number_fill_val = number_fill_val
@@ -137,7 +137,7 @@ class ConstantImputer(BaseEstimator, TransformerMixin):
             X[row].fillna(self.number_fill_val, inplace=True)
         return X
 
-class DataFrameImputer(BaseEstimator, TransformerMixin):
+class DFImputer(BaseEstimator, TransformerMixin):
     def __init__(self, strategy="mean", columns=[], inplace=False):
         self.strategy = strategy
         self.columns = columns
@@ -154,7 +154,7 @@ class DataFrameImputer(BaseEstimator, TransformerMixin):
         X.loc[:, self.columns] = self.imputer.transform(X.loc[:, self.columns])
         return X
 
-class DataFrameSelector(BaseEstimator, TransformerMixin):
+class DFSelector(BaseEstimator, TransformerMixin):
     def __init__(self, columns=[], inplace=False):
         self.columns = columns
         self.inplace = inplace
